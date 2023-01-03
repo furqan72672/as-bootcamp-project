@@ -1,16 +1,9 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const frontAuth = require('../api/middlewares/front/auth');
 const frontRoutes = require('../api/routes/v1/front/index');
 const adminRoutes = require('../api/routes/v1/admin/index');
 const path = require('path');
-
-/**
-* Express instance
-* @public
-*/
-
 const app = express();
 
 app.use(bodyParser.json({ limit: '50mb' }));
@@ -26,13 +19,14 @@ var corsOptions = {
 app.use(cors(corsOptions));
 
 // authentication middleware to get token
-app.use(frontAuth.authenticate);
+// app.use(frontAuth.authenticate);
+// i'll implement perRoute authentication middleware
 
 // mount admin api v1 routes
-app.use('/v1/admin', adminRoutes);
+app.use('/api/v1/admin', adminRoutes);
 
-// mount admin api v1 routes
-app.use('/v1/front', frontRoutes);
+// mount front-end api v1 routes
+app.use('/api/v1', frontRoutes);
 
 
 // Admin Site Build Path

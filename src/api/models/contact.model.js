@@ -9,9 +9,4 @@ const ContactSchema = new mongoose.Schema({
 }, { timestamps: true }
 );
 
-/**
- * @typedef Contact
- */
-
-
 module.exports = mongoose.model('Contact', ContactSchema);
