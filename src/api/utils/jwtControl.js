@@ -17,6 +17,16 @@ class JwtControl{
         return user
     }
 
+    static async verifyUser(token){
+        let verification
+        jwt.verify(token,jwt_secret,(err,decoded)=>{
+            if(err)return verification=false
+            if(!decoded._id)return verification=false
+            verification=true
+        })
+        return verification
+    }
+
     
 }
 

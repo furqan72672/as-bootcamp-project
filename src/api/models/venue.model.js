@@ -1,6 +1,10 @@
 const mongoose=require('mongoose')
 
 const venueSchema=new mongoose.Schema({
+    rating:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'Rating',
+    },
     name:{
         type:String,
         required:true,

@@ -2,17 +2,24 @@ class Responses{
 
     constructor(){}
 
-    static success(data,status,msg,res){
+    static success(data,status,message,res){
         res.status(status).send({
-            message:msg,
+            message,
             data
         })
     }
 
-    static failed(err,status,msg,res){
+    static failed(error,status,msg,res){
         res.status(status).send({
             message:msg,
-            err
+            error
+        })
+    }
+
+    static failedAuth(res){
+        res.status(403).send({
+            message:'unauthoraized',
+            error:'access forbidden'
         })
     }
 }
