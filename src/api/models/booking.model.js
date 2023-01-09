@@ -1,14 +1,9 @@
 const mongoose=require('mongoose')
 
-const appointmentSchema=new mongoose.Schema({
+const bookingSchema=new mongoose.Schema({
     user:{
         type:mongoose.Schema.Types.ObjectId,
         ref:'User',
-        required:true
-    },
-    office:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:'Office',
         required:true
     },
     date:{
@@ -19,11 +14,16 @@ const appointmentSchema=new mongoose.Schema({
         type:String,
         required:true,
     },
+    venue:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'Venue',
+        required:true
+    },
     status:{
         type:String,
-        enum: ['PENDING','ACCEPTED','REJECTED'],
+        enum: ['PENDING','COMPLETED'],
         default:'PENDING'
     },
 },{timestamps:true})
 
-module.exports=mongoose.model('Appointment',appointmentSchema)
+module.exports=mongoose.model('Booking',bookingSchema)

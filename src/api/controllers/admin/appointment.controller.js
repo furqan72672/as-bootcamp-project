@@ -6,7 +6,7 @@ class Controller{
 
     static async list(req,res,next){
         try{
-            const appointments=await Appointment.find().populate('user')
+            const appointments=await Appointment.find().populate('user').populate('office')
             Responses.success(appointments,200,'list retrieved',res)
         }
         catch(err){

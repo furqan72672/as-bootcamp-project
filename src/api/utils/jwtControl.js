@@ -27,6 +27,10 @@ class JwtControl{
         return verification
     }
 
+    static async extractId(token){
+        const decodedToken=jwt.decode(token)
+        return decodedToken._id
+    }
     
 }
 

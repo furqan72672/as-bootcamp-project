@@ -15,11 +15,26 @@ class Controller{
     }
 
     static async edit(req,res,next){
-        Venue.updateOne({_id:req.params.id},{status:req.body.status.toUpperCase()},(err,result)=>{
-            if(err)return Responses.failed(err,500,'error while updating',res)
-            if(!result.nModified)return Responses.failed('venue not found',404,'error while updating',res)
-            Responses.success(result,201,'changes saved',res)
-        })
+        try{
+            const oldVenue=(await Venue.find({_id:req.params.id}))[0]
+            const venue={
+                name:req.body.name||oldVenue.name,
+                description:req.body.description||oldVenue.description,
+                capacity:req.body.capacity||oldVenue.capacity,
+                address:req.body.address||oldVenue.address,
+                city:req.body.city||oldVenue.city,
+                country:req.body.country||oldVenue.country,
+                rating:req.body.rating||oldVenue.rating
+            }
+            Venue.updateOne({_id:req.params.id},venue,(err,result)=>{
+                if(err)return Responses.failed(err,500,'error while updating',res)
+                if(!result.nModified)return Responses.failed('venue not found',404,'error while updating',res)
+                Responses.success(result,201,'changes saved',res)
+            })
+        }
+        catch(err){
+            return Responses.failed(err,500,'error while updating',res)
+        }
     }
 
     static async create(req,res,next){
