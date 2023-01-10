@@ -39,15 +39,21 @@ class Controller{
 
     static async create(req,res,next){
         try{
+            let images=[]
+            req.files['images'].forEach(image=>{
+                images.push(image.filename)
+            })
             const venue=await Venue.create({
                 name:req.body.name,
                 description:req.body.description,
                 capacity:req.body.capacity,
                 address:req.body.address,
                 city:req.body.city,
-                country:req.body.country
+                country:req.body.country,
+                images:[...images]
             })
             Responses.success(venue,201,'venue created',res)
+            // Responses.success('',201,'venue created',res)
         }
         catch(err){
             Responses.failed(err,500,'error while creating',res)

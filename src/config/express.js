@@ -29,6 +29,9 @@ app.use('/api/v1/admin', adminRoutes);
 app.use('/api/v1', frontRoutes);
 
 
+app.use('/uploads', express.static(path.join(__dirname, '../uploads')))
+
+
 // Admin Site Build Path
 app.use('/admin/', express.static(path.join(__dirname, '../../admin')))
 app.get('/admin/*', function (req, res) {
