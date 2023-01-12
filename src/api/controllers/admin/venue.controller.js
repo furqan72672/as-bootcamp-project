@@ -1,5 +1,7 @@
 const Venue = require("../../models/venue.model")
 const Responses = require("../../utils/responses")
+const fs=require('fs')
+const path=require('path')
 
 class Controller{
     constructor(){}
@@ -17,6 +19,23 @@ class Controller{
     static async edit(req,res,next){
         try{
             const oldVenue=(await Venue.find({_id:req.params.id}))[0]
+            let images=[]
+
+            if(typeof req.body.oldImages==='object')images=[...req.body.oldImages]
+            else images=[req.body.oldImages]
+
+            const deletableImages=oldVenue.images.filter(img=>images.indexOf(img)<0)
+            console.log(deletableImages)
+            deletableImages.forEach(img=>{
+                console.log(path.join(__dirname,'../../../uploads/images',img))
+                fs.rmSync(path.join(__dirname,'../../../uploads/images',img))
+            })
+            if(req.files['images']){
+                req.files['images'].forEach(image=>{
+                    images.push(image.filename)
+                })
+            }
+
             const venue={
                 name:req.body.name||oldVenue.name,
                 description:req.body.description||oldVenue.description,
@@ -24,7 +43,8 @@ class Controller{
                 address:req.body.address||oldVenue.address,
                 city:req.body.city||oldVenue.city,
                 country:req.body.country||oldVenue.country,
-                rating:req.body.rating||oldVenue.rating
+                rating:req.body.rating||oldVenue.rating,
+                images:images||oldVenue.images
             }
             Venue.updateOne({_id:req.params.id},venue,(err,result)=>{
                 if(err)return Responses.failed(err,500,'error while updating',res)
@@ -33,6 +53,7 @@ class Controller{
             })
         }
         catch(err){
+            console.log(err)
             return Responses.failed(err,500,'error while updating',res)
         }
     }
