@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const vars=require('../../config/vars')
 const jwt_secret=vars.jwt.secret
+const User=require('../models/user.model')
 
 class JwtControl{
 
@@ -12,19 +13,22 @@ class JwtControl{
             email:user.email,
             role:user.role
         }
-        const token=await jwt.sign(jwt_payload,jwt_secret)
+        const token=jwt.sign(jwt_payload,jwt_secret)
         user.token=token
         return user
     }
 
-    static async verifyUser(token){
-        let verification
-        jwt.verify(token,jwt_secret,(err,decoded)=>{
-            if(err)return verification=false
-            if(!decoded._id)return verification=false
-            verification=true
-        })
-        return verification
+    static async verifyAdmin(token){
+        try{
+            const decoded=jwt.verify(token,jwt_secret)
+            if(!decoded._id)return false
+            const user=await User.findById(decoded._id)
+            if(user.role!=='ADMIN')return false
+            return true
+        }
+        catch(err){
+            return false
+        }
     }
 
     static async extractId(token){

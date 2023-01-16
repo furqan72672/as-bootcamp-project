@@ -33,15 +33,18 @@ app.use('/uploads', express.static(path.join(__dirname, '../uploads')))
 
 
 // Admin Site Build Path
-app.use('/admin/', express.static(path.join(__dirname, '../../admin')))
+
+app.use('/admin/',express.static(path.join(__dirname, '../../admin')))
 app.get('/admin/*', function (req, res) {
-  res.sendFile(path.join(__dirname, '../../admin', 'index.html'));
+  res.sendFile(path.join(__dirname, '../../admin','index.html'));
 });
 
+
+
 // Front Site Build Path
-app.use('/', express.static(path.join(__dirname, '../../front')))
-app.get('/*', function (req, res) {
-  res.sendFile(path.join(__dirname, '../../front', 'index.html'));
-});
+// app.use('/', express.static(path.join(__dirname, '../../front')))
+// app.get('/*', function (req, res) {
+//   res.sendFile(path.join(__dirname, '../../front', 'index.html'));
+// });
 
 module.exports = app;

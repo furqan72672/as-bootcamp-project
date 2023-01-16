@@ -22,13 +22,15 @@ class Controller{
             let images=[]
 
             if(typeof req.body.oldImages==='object')images=[...req.body.oldImages]
-            else images=[req.body.oldImages]
+            else if(typeof req.body.oldImages==='string')images=[req.body.oldImages]
 
             const deletableImages=oldVenue.images.filter(img=>images.indexOf(img)<0)
             console.log(deletableImages)
             deletableImages.forEach(img=>{
                 console.log(path.join(__dirname,'../../../uploads/images',img))
-                fs.rmSync(path.join(__dirname,'../../../uploads/images',img))
+                if(fs.existsSync(path.join(__dirname,'../../../uploads/images',img))){
+                    fs.rmSync(path.join(__dirname,'../../../uploads/images',img))
+                }
             })
             if(req.files['images']){
                 req.files['images'].forEach(image=>{

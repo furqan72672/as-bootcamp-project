@@ -29,7 +29,9 @@ class Controller{
         bcrypt.compare(req.body.password,user.password,async (err,same)=>{
             if(err)return Responses.failed(err,500,'error while comparing password',res)
             if(!same)return Responses.failed('incorrect credentials',403,'forbidden',res)
+            if(user.role!=='ADMIN')return Responses.failed('incorrect credentials',403,'forbidden',res)
             user=await JwtControl.generateAndPushInUser(user)
+            console.log(user)
             Responses.success(user,201,'logged in successfully',res)
         })
     }
