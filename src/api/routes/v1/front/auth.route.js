@@ -4,7 +4,10 @@ const { profileUpload } = require('../../../utils/upload')
 const router = express.Router();
 
 
-router.route('/register').post(Controller.createUser);
+router.post('/register',Controller.createUser);
 router.post('/login',Controller.login);
+router.post('/forgot-password',Controller.forgotPassword);
+router.post('/verify',Controller.verifySecret);
+router.post('/reset-password',Controller.resetPassword)
 
 module.exports = router;
