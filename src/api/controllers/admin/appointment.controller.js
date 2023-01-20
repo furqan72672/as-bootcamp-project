@@ -17,7 +17,7 @@ class Controller{
     static async edit(req,res,next){
         Appointment.updateOne({_id:req.params.id},{status:req.body.status.toUpperCase()},(err,result)=>{
             if(err)return Responses.failed(err,500,'error while updating',res)
-            if(!result.nModified)return Responses.failed('appointment not found',404,'error while updating',res)
+            if(!result.nModified)return Responses.notFound('appointment',res)
             Responses.success(result,201,'changes saved',res)
         })
     }

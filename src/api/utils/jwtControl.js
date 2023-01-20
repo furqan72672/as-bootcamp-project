@@ -31,6 +31,20 @@ class JwtControl{
         }
     }
 
+    static async verifyUser(req,token){
+        try{
+            const decoded=jwt.verify(token,jwt_secret)
+            if(!decoded._id)return false
+            const user=await User.findById(decoded._id)
+            if(user.role!=='USER')return false
+            req.id=decoded._id
+            return true
+        }
+        catch(err){
+            return false
+        }
+    }
+
     static async extractId(token){
         const decodedToken=jwt.decode(token)
         return decodedToken._id

@@ -39,7 +39,7 @@ class Controller{
             }
             Office.updateOne({_id:req.params.id},office,(err,result)=>{
                 if(err)return Responses.failed(err,500,'error while updating',res)
-                if(!result.nModified)return Responses.failed('office not found',404,'error while updating',res)
+                if(!result.nModified)return Responses.notFound('office',res)
                 Responses.success(result,201,'changes saved',res)
             })
         }
@@ -51,7 +51,7 @@ class Controller{
     static async remove(req,res,next){
         Office.deleteOne({_id:req.params.id},(err,result)=>{
             if(err)return Responses.failed(err,500,'error while deleting',res)
-            if(!result.deletedCount)return Responses.failed('office not found',404,'error while deleting',res)
+            if(!result.deletedCount)return Responses.notFound('office',res)
             Responses.success(result,201,'office deleted',res)
         })
     }

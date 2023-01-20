@@ -50,7 +50,7 @@ class Controller{
             }
             Venue.updateOne({_id:req.params.id},venue,(err,result)=>{
                 if(err)return Responses.failed(err,500,'error while updating',res)
-                if(!result.nModified)return Responses.failed('venue not found',404,'error while updating',res)
+                if(!result.nModified)return Responses.notFound('venue',res)
                 Responses.success(result,201,'changes saved',res)
             })
         }
@@ -86,7 +86,7 @@ class Controller{
     static async remove(req,res,next){
         Venue.deleteOne({_id:req.params.id},(err,result)=>{
             if(err)return Responses.failed(err,500,'error while deleting',res)
-            if(!result.deletedCount)return Responses.failed('venue not found',404,'error while deleting',res)
+            if(!result.deletedCount)return Responses.notFound('venue',res)
             Responses.success(result,201,'venue deleted',res)
         })
     }

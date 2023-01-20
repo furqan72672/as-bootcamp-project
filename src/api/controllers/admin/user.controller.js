@@ -11,7 +11,7 @@ class Controller{
         const id=await JwtControl.extractId(req.token)
         try{
             const user=await User.findOne({_id:id})
-            if(!user._id)return Responses.failed('user not found',404,'error while retrieving',res)
+            if(!user._id)return Responses.notFound('user',res)
             Responses.success(user,200,'profile retrieved',res)
         }
         catch(err){
