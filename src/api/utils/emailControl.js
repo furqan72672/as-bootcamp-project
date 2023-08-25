@@ -11,7 +11,7 @@ class EmailControl{
     const mg = mailgun({apiKey: mailgunEnv.apiKey, domain:mailgunEnv.domain });
     const data = {
       from: "Support@EventsBridge.com",
-      to: "furqan72672@gmail.com",
+      to: "Muhammad.furqan@techliance.com",
       subject: "Password Reset Mail",
       html:EmailControl.populateEmail(secret),
       'h:X-Mailgun-Variables': {test: "test"}
